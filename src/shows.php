@@ -51,13 +51,10 @@
             }
         }
 
-        $UserID = $_SESSION['id'];
-        $UserName = $_SESSION['username'] ;
+        // $UserID = $_SESSION['id'];
+        // $UserName = $_SESSION['username'] ;
 
-        // Query
         $sql = 'SELECT * FROM Shows ORDER BY show_name';
-
-        // Create prepared statement
         $stmt = mysqli_stmt_init($conn);
 
         if(!mysqli_stmt_prepare($stmt, $sql))
@@ -68,26 +65,35 @@
         {
             // Binding parameters
             //mysqli_stmt_bind_param($stmt, 's', $UserID);
-            // Executing prepared statement
+            
             mysqli_stmt_execute($stmt);
 
             $result = mysqli_stmt_get_result($stmt);
             
             while ($row = mysqli_fetch_assoc($result))
             {
-                $show_name = $row['show_name'];
-                $last_ep_watched = $row['last_ep_watched'];
+                $show_id = (int)$row['show_id']; 
+				$show_name = htmlspecialchars($row['show_name'], ENT_QUOTES, 'UTF-8');
+				//$last_ep_watched = (int)$row['last_ep_watched']; // episode_id-je az adott résznek
 
-                // Showing notes
+                // Show's details
                 echo '
                 <div class="col-13 mx-auto"> 
                     <div class="card">
-                        <h4 class="card-header">
-                            ';echo $show_name; echo'
-                            <div class="btn-group btn-group-sm float-right" role="group" aria-label="First group">
-                                <button type="button" class="btn btn-info">M</button>
-                                <button type="button" class="btn btn-warning">X</button>
-                            </div>
+                        <h4 class="card-header">                            
+							
+							<a href="episodes.php?id=' . $show_id . '" class="text-decoration-none text-dark">' . $show_name . '</a>							
+                            
+							<div class="btn-group btn-group-sm float-right" role="group" aria-label="First group">
+                                
+								<a href="show_edit.php?id=' . $show_id . '" class="btn btn-info" title="Módosítás">M</a>								
+								
+								<form action="show_delete.php" method="POST" class="d-inline" onsubmit="return confirm(\'Biztosan törölni szeretnéd ezt a sorozatot?\');">
+									<input type="hidden" name="id" value="' . $show_id . '">
+									<button type="submit" class="btn btn-warning" title="Törlés">X</button>
+								</form>
+                            
+							</div>
                         </h4>
                     </div>
                 </div>
