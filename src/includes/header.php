@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Notepad</title>
+    <title>Follower</title>
     <link rel="stylesheet" href="https://bootswatch.com/4/cerulean/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="./css/custom.css">
 </head>
@@ -33,8 +33,20 @@
 
                         <div class="collapse navbar-collapse" id="navbarResponsive">
                             <ul class="navbar-nav ml-auto">
-                                <li class="nav-item">
-                                    <button type="button" class="nav-link active btn" data-toggle="modal" data-target="#ModalCenter">Add</button>
+                                <li class="nav-item">';
+								
+								if (isset($_GET['id']) && is_numeric($_GET['id']))
+								{
+									// If episodes.php called this
+									echo '<button type="button" class="nav-link active btn" data-toggle="modal" data-target="#ModalCenter">Add episode</button>';
+								}
+								else
+								{
+									// If shows.php called this
+									echo '<button type="button" class="nav-link active btn" data-toggle="modal" data-target="#ModalCenter">Add show</button>';
+								}
+								echo '
+                                    
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link active btn" href="shows.php">Shows</a>

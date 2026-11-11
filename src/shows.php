@@ -9,20 +9,30 @@
 
 <div class="container">
 
-    <!-- Add note code -->
+    <!-- Add show code -->
     <div class="modal fade" id="ModalCenter" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ModalLongTitle">Add note</h5>
+                    <h5 class="modal-title" id="ModalLongTitle">Add show</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 
-                <form action="add.php" method="POST">
+                <form action="show_add.php" method="POST">
                     <div class="modal-body">
-                        <textarea class="form-control" id="inputNote" name="inputNote" rows="3" maxlength="255" required></textarea>
+                        						
+						<div class="mb-3">
+							<label for="show_id" class="form-label">TheTvDB.com Show ID:</label>
+							<input type="number" class="form-control" id="show_id" name="show_id" required />
+						</div>
+						
+						<div class="mb-3">
+							<label for="show_name" class="form-label">Show name:</label>
+							<input type="text" class="form-control" id="show_name" name="show_name" maxlength="250" required />
+						</div>
+						
                     </div>
 
                     <div class="modal-footer">
@@ -34,7 +44,7 @@
         </div>
     </div>
 
-    <!-- List note(s) code -->
+    <!-- Shows code -->
     <?php
         // Database error
         if (isset($_GET["error"]))
