@@ -126,7 +126,7 @@
                                 
 								<a href="show_edit.php?show_id=' . $show_id . '" class="btn btn-info" title="Módosítás">M</a>								
 								
-								<form action="show_delete.php" method="POST" class="d-inline" onsubmit="return confirm(\'Biztosan törölni szeretnéd ezt a sorozatot?\');">
+								<form action="show_delete.php" method="POST" class="d-inline" onsubmit="return confirm(\'Do you really want to delete this show?\');">
 									<input type="hidden" id="show_id" name="show_id" value="' . $show_id . '" />
 									<button type="submit" name="submit" class="btn btn-warning" title="Törlés">X</button>
 								</form>

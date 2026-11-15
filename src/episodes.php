@@ -80,7 +80,35 @@
             }
         }
 
-		$sql = "SELECT * FROM Episodes WHERE show_id=? ORDER BY season_number, episode_number";		
+		if (isset($_GET["succedit"]))
+        {		
+            if ($_GET["succedit"] == "true")
+            {
+            print '
+                <p>
+                    <div class="alert alert-success">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Successful edit!</strong>
+                    </div>   
+                </p>';
+            }
+        }
+
+        if (isset($_GET["succdel"]))
+        {		
+            if ($_GET["succdel"] == "true")
+            {
+            print '
+                <p>
+                    <div class="alert alert-success">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Successful delete!</strong>
+                    </div>   
+                </p>';
+            }
+        }
+
+		$sql = "SELECT * FROM Episodes WHERE show_id=? AND season_number > 0 ORDER BY season_number, episode_number";		
 		$stmt = mysqli_stmt_init($conn);
 		
 		if(!mysqli_stmt_prepare($stmt, $sql))
@@ -96,7 +124,7 @@
 
 			while ($row = mysqli_fetch_assoc($result))
 			{
-				$episode_id = (int)$row['id'];
+				$id = (int)$row['id'];
 				$season_number = (int)$row['season_number'];
 				$episode_number = (int)$row['episode_number'];
 				$episode_name = htmlspecialchars($row['episode_name'], ENT_QUOTES, 'UTF-8');
@@ -112,15 +140,17 @@
 							echo ': ';echo $episode_name; echo'							
 							
 							<div class="btn-group btn-group-sm float-right" role="group" aria-label="First group">
+                                
+								<a href="episode_edit.php?id=' . $id . '&show_id=' . $show_id . '" class="btn btn-info" title="Módosítás">M</a>								
 								
-								<a href="episode_edit.php?episode_id=' . $episode_id . '" class="btn btn-info" title="Módosítás">M</a>								
-								
-								<form action="episode_delete.php" method="POST" class="d-inline" onsubmit="return confirm(\'Biztosan törölni szeretnéd ezt a részt?\');">
-									<input type="hidden" name="episode_id" value="' . $episode_id . '">
-									<button type="submit" class="btn btn-warning" title="Törlés">X</button>
+								<form action="episode_delete.php" method="POST" class="d-inline" onsubmit="return confirm(\'Do you really want to delete this episode?\');">
+									<input type="hidden" id="id" name="id" value="' . $id . '" />
+									<input type="hidden" id="show_id" name="show_id" value="' . $show_id . '" />
+									<button type="submit" name="submit" class="btn btn-warning" title="Törlés">X</button>
 								</form>
-							
+                            
 							</div>
+
 						</h4>
 					</div>
 				</div>

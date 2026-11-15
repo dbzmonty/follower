@@ -60,7 +60,7 @@
             }
         }
 
-		$sql = "SELECT * FROM Shows WHERE show_id=? LIMIT 1";		
+		$sql = "SELECT * FROM Shows WHERE show_id = ? LIMIT 1";		
 		$stmt = mysqli_stmt_init($conn);
 		
 		if(!mysqli_stmt_prepare($stmt, $sql))

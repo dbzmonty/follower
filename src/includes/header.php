@@ -17,7 +17,7 @@
     <!--Start Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand">Follower</a>
+            <a class="navbar-brand" href="shows.php">Follower</a>
             <?php 
                 if (isset($_SESSION['username']))
                 {
