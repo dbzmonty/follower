@@ -130,6 +130,10 @@
 				$episode_name = htmlspecialchars($row['episode_name'], ENT_QUOTES, 'UTF-8');
 				//$first_aired = (date)$row['first_aired'];
 				$is_watched = (bool)$row['is_watched'];
+				
+				$btn_class = $is_watched ? 'btn-success' : 'btn-info';
+				$btn_label = $is_watched ? 'Seen' : 'Watch';
+				
 				echo '
 				<div class="col-13 mx-auto"> 
 					<div class="card">
@@ -140,17 +144,24 @@
 							echo ': ';echo $episode_name; echo'							
 							
 							<div class="btn-group btn-group-sm float-right" role="group" aria-label="First group">
-                                
-								<a href="episode_edit.php?id=' . $id . '&show_id=' . $show_id . '" class="btn btn-info" title="Módosítás">M</a>								
-								
+                            
 								<form action="episode_delete.php" method="POST" class="d-inline" onsubmit="return confirm(\'Do you really want to delete this episode?\');">
 									<input type="hidden" id="id" name="id" value="' . $id . '" />
 									<input type="hidden" id="show_id" name="show_id" value="' . $show_id . '" />
-									<button type="submit" name="submit" class="btn btn-warning" title="Törlés">X</button>
+									<button type="submit" name="submit" class="btn btn-warning" title="Delete">X</button>
 								</form>
-                            
-							</div>
+								
+								<a href="episode_edit.php?id=' . $id . '&show_id=' . $show_id . '" class="btn btn-primary d-inline-flex align-items-center" title="Módosítás">M</a>								
+																
+								<form action="episode_watched.php" method="POST" class="d-inline">
+									<input type="hidden" id="id" name="id" value="' . $id . '" />
+									<input type="hidden" id="show_id" name="show_id" value="' . $show_id . '" />
+									<input type="hidden" id="is_watched" name="is_watched" value="' . $is_watched . '" />
+									<button type="submit" name="submit" class="btn ' . $btn_class . '" title=" . $btn_label . ">' . $btn_label . '</button>
+								</form>
 
+							</div>
+						
 						</h4>
 					</div>
 				</div>

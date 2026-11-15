@@ -124,7 +124,7 @@
                             
 							<div class="btn-group btn-group-sm float-right" role="group" aria-label="First group">
                                 
-								<a href="show_edit.php?show_id=' . $show_id . '" class="btn btn-info" title="Módosítás">M</a>								
+								<a href="show_edit.php?show_id=' . $show_id . '" class="btn btn-info d-inline-flex align-items-center" title="Módosítás">M</a>								
 								
 								<form action="show_delete.php" method="POST" class="d-inline" onsubmit="return confirm(\'Do you really want to delete this show?\');">
 									<input type="hidden" id="show_id" name="show_id" value="' . $show_id . '" />
