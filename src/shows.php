@@ -61,6 +61,34 @@
             }
         }
 
+        if (isset($_GET["succedit"]))
+        {		
+            if ($_GET["succedit"] == "true")
+            {
+            print '
+                <p>
+                    <div class="alert alert-success">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Successful edit!</strong>
+                    </div>   
+                </p>';
+            }
+        }
+
+        if (isset($_GET["succdel"]))
+        {		
+            if ($_GET["succdel"] == "true")
+            {
+            print '
+                <p>
+                    <div class="alert alert-success">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Successful delete!</strong>
+                    </div>   
+                </p>';
+            }
+        }
+
         // $UserID = $_SESSION['id'];
         // $UserName = $_SESSION['username'] ;
 
@@ -92,15 +120,15 @@
                     <div class="card">
                         <h4 class="card-header">                            
 							
-							<a href="episodes.php?id=' . $show_id . '" class="text-decoration-none text-dark">' . $show_name . '</a>							
+							<a href="episodes.php?show_id=' . $show_id . '" class="text-decoration-none text-dark">' . $show_name . '</a>							
                             
 							<div class="btn-group btn-group-sm float-right" role="group" aria-label="First group">
                                 
-								<a href="show_edit.php?id=' . $show_id . '" class="btn btn-info" title="Módosítás">M</a>								
+								<a href="show_edit.php?show_id=' . $show_id . '" class="btn btn-info" title="Módosítás">M</a>								
 								
 								<form action="show_delete.php" method="POST" class="d-inline" onsubmit="return confirm(\'Biztosan törölni szeretnéd ezt a sorozatot?\');">
-									<input type="hidden" name="id" value="' . $show_id . '">
-									<button type="submit" class="btn btn-warning" title="Törlés">X</button>
+									<input type="hidden" id="show_id" name="show_id" value="' . $show_id . '" />
+									<button type="submit" name="submit" class="btn btn-warning" title="Törlés">X</button>
 								</form>
                             
 							</div>

@@ -6,9 +6,9 @@
         header("location:login.php");
     }    
 	
-	if (isset($_GET['id']) && is_numeric($_GET['id']))
+	if (isset($_GET['show_id']) && is_numeric($_GET['show_id']))
 	{
-		$show_id = (int)$_GET['id'];
+		$show_id = (int)$_GET['show_id'];
 	}
 	else		
 	{
@@ -96,7 +96,7 @@
 
 			while ($row = mysqli_fetch_assoc($result))
 			{
-				$episode_id = (int)$row['episode_id'];
+				$episode_id = (int)$row['id'];
 				$season_number = (int)$row['season_number'];
 				$episode_number = (int)$row['episode_number'];
 				$episode_name = htmlspecialchars($row['episode_name'], ENT_QUOTES, 'UTF-8');
@@ -113,10 +113,10 @@
 							
 							<div class="btn-group btn-group-sm float-right" role="group" aria-label="First group">
 								
-								<a href="show_edit.php?id=' . $episode_id . '" class="btn btn-info" title="Módosítás">M</a>								
+								<a href="episode_edit.php?episode_id=' . $episode_id . '" class="btn btn-info" title="Módosítás">M</a>								
 								
-								<form action="show_delete.php" method="POST" class="d-inline" onsubmit="return confirm(\'Biztosan törölni szeretnéd ezt a sorozatot?\');">
-									<input type="hidden" name="id" value="' . $episode_id . '">
+								<form action="episode_delete.php" method="POST" class="d-inline" onsubmit="return confirm(\'Biztosan törölni szeretnéd ezt a részt?\');">
+									<input type="hidden" name="episode_id" value="' . $episode_id . '">
 									<button type="submit" class="btn btn-warning" title="Törlés">X</button>
 								</form>
 							

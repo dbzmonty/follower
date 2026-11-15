@@ -30,7 +30,7 @@
             // Executing prepared statement
             mysqli_stmt_execute($stmt);
             // Redirect to index site
-            header("location:episodes.php?id=" . $show_id);            
+            header("location:episodes.php?show_id=" . $show_id);            
         }
 
         require_once('./includes/footer.php');

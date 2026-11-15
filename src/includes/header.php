@@ -35,7 +35,7 @@
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">';
 								
-								if (isset($_GET['id']) && is_numeric($_GET['id']))
+								if (isset($_GET['show_id']) && is_numeric($_GET['show_id']))
 								{
 									// If episodes.php called this
 									echo '<button type="button" class="nav-link active btn" data-toggle="modal" data-target="#ModalCenter">Add episode</button>';
