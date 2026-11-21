@@ -1,17 +1,22 @@
 <?php
-    require_once('./includes/header.php');
-      
+    session_start();
+	require_once('./includes/db.php'); 
+        
+	header('Content-Type: application/json; charset=utf-8');
+	
     if (!isset($_SESSION['username']))
     {   
-        header("location:login.php");
+        http_response_code(401);
+        echo json_encode(['success' => false, 'message' => 'Nincs bejelentkezve.']);
+        exit;
     }    
 		
-    if (isset($_POST["submit"]))
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'], $_POST['show_id'], $_POST['is_watched']))
     {
         $id = (int)$_POST['id'];
         $show_id = (int)$_POST['show_id'];
-        $is_watched = (bool)$_POST['is_watched'];
-        $is_watched = !$is_watched;
+        $current_watched = (int)$_POST['is_watched'];
+        $new_watched = $current_watched ? 0 : 1;
 
         // Update episode in database
         $sql = 'UPDATE Episodes SET is_watched = ?, updated_at = NOW() WHERE id = ?';
@@ -21,17 +26,19 @@
 
         if (!mysqli_stmt_prepare($stmt, $sql))
         {
-            header("location:shows.php?error=true");
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Adatbázis hiba (Episodes).']);
+            exit;
         }
         else
         {
             // Binding parameters
-            mysqli_stmt_bind_param($stmt, 'ii', $is_watched, $id);
+            mysqli_stmt_bind_param($stmt, 'ii', $new_watched, $id);
             // Executing prepared statement
             mysqli_stmt_execute($stmt);         
         }
 
-        if ($is_watched)
+        if ($new_watched === 1)
         {
             // Update show in database
             $sql = 'UPDATE Shows SET last_ep_watched = NOW() WHERE show_id = ?';
@@ -41,7 +48,9 @@
 
             if (!mysqli_stmt_prepare($stmt, $sql))
             {
-                header("location:shows.php?error=true");
+                http_response_code(500);
+                echo json_encode(['success' => false, 'message' => 'Adatbázis hiba (Shows).']);
+                exit;
             }
             else
             {
@@ -52,10 +61,16 @@
             }
         }
 
-        header("location:episodes.php?show_id=" . $show_id);
+        echo json_encode([
+            'success' => true,
+            'is_watched' => $new_watched
+        ]);
+        exit;
     }
 	else		
 	{
-		echo "Érvénytelen vagy hiányzó azonosító.";
+		http_response_code(400);
+        echo json_encode(['success' => false, 'message' => 'Érvénytelen vagy hiányzó azonosító.']);
+        exit;
 	}
 ?>

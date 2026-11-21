@@ -153,11 +153,11 @@
 								
 								<a href="episode_edit.php?id=' . $id . '&show_id=' . $show_id . '" class="btn btn-primary d-inline-flex align-items-center" title="Módosítás">M</a>								
 																
-								<form action="episode_watched.php" method="POST" class="d-inline">
+								<form action="episode_watched.php" method="POST" class="d-inline watch-form">
 									<input type="hidden" id="id" name="id" value="' . $id . '" />
 									<input type="hidden" id="show_id" name="show_id" value="' . $show_id . '" />
-									<input type="hidden" id="is_watched" name="is_watched" value="' . $is_watched . '" />
-									<button type="submit" name="submit" class="btn ' . $btn_class . '" title=" . $btn_label . ">' . $btn_label . '</button>
+									<input type="hidden" id="is_watched" name="is_watched" value="' . (int)$is_watched . '" />
+									<button type="submit" name="submit" class="btn ' . $btn_class . '" title="' . $btn_label . '">' . $btn_label . '</button>
 								</form>
 
 							</div>
@@ -170,5 +170,60 @@
 		}					
 	?>
 </div>
+
+<script>
+document.addEventListener('submit', async function (e) {
+    if (!e.target.classList.contains('watch-form')) return;
+
+    e.preventDefault();
+
+    const form = e.target;
+    const button = form.querySelector('button[type="submit"]');
+    const watchedInput = form.querySelector('input[name="is_watched"]');
+    const formData = new FormData(form);
+
+    button.disabled = true;
+
+    try {
+        const response = await fetch(form.action, {
+            method: 'POST',
+            body: formData
+        });
+
+        const rawText = await response.text();
+        let data;
+
+        try {
+            data = JSON.parse(rawText);
+        } catch (parseErr) {
+            alert('PHP hibaüzenet a szervertől:\n\n' + rawText);
+            return;
+        }
+
+        if (data.success) {
+            watchedInput.value = data.is_watched;
+
+            if (data.is_watched === 1) {
+                button.classList.remove('btn-info');
+                button.classList.add('btn-success');
+                button.textContent = 'Seen';
+                button.title = 'Seen';
+            } else {
+                button.classList.remove('btn-success');
+                button.classList.add('btn-info');
+                button.textContent = 'Watch';
+                button.title = 'Watch';
+            }
+        } else {
+            alert(data.message || 'Hiba történt.');
+        }
+    } catch (err) {
+        console.error(err);
+        alert('Hálózati hiba történt.');
+    } finally {
+        button.disabled = false;
+    }
+});
+</script>
 
 <?php require_once('./includes/footer.php'); ?>
